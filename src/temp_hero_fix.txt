@@ -1,0 +1,2 @@
+Marking removal of lines 231-239 in Hero.tsx:
+- Remove the motion.p element with text "Plataforma 100% White Label para Pagamentos"

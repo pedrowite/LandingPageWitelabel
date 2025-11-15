@@ -1,0 +1,223 @@
+case 'multiacquirer':
+  return (
+    <div className="absolute inset-0 flex items-center justify-center p-12">
+      {/* Multi-Acquirer 2D Visualization */}
+      <div className="relative w-full h-full flex flex-col items-center justify-center gap-12">
+        
+        {/* Acquirers Row at Top */}
+        <div className="relative flex items-center justify-center gap-8">
+          {[
+            { name: 'Adyen', status: 'active', color: '#00c950' },
+            { name: 'Stripe', status: 'active', color: '#9810FA' },
+            { name: 'PagSeguro', status: 'active', color: '#ff8534' },
+            { name: 'Cielo', status: 'standby', color: '#666' }
+          ].map((acquirer, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: -30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.15, type: "spring" }}
+              className="relative"
+            >
+              <motion.div
+                className="w-28 h-28 rounded-2xl backdrop-blur-xl border-2 flex flex-col items-center justify-center relative overflow-hidden"
+                style={{
+                  background: `rgba(${acquirer.status === 'active' ? '255,255,255' : '100,100,100'}, 0.1)`,
+                  borderColor: `${acquirer.color}80`
+                }}
+                animate={acquirer.status === 'active' ? {
+                  boxShadow: [
+                    `0 0 20px ${acquirer.color}60`,
+                    `0 0 40px ${acquirer.color}90`,
+                    `0 0 20px ${acquirer.color}60`
+                  ]
+                } : {}}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                {acquirer.status === 'active' && (
+                  <motion.div
+                    className="absolute inset-0 rounded-2xl"
+                    style={{ background: acquirer.color, opacity: 0.2 }}
+                    animate={{ opacity: [0.1, 0.3, 0.1] }}
+                    transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
+                  />
+                )}
+                
+                <div className="relative z-10">
+                  <div className="text-3xl mb-2">{acquirer.status === 'active' ? '🏦' : '⏸️'}</div>
+                  <p className="text-white font-bold text-sm">{acquirer.name}</p>
+                  <p className={`text-xs font-semibold ${acquirer.status === 'active' ? 'text-[#00c950]' : 'text-[#666]'}`}>
+                    {acquirer.status === 'active' ? 'ATIVO' : 'STANDBY'}
+                  </p>
+                </div>
+
+                {/* Pulse ring for active */}
+                {acquirer.status === 'active' && (
+                  <motion.div
+                    className="absolute inset-0 rounded-2xl"
+                    style={{ border: `2px solid ${acquirer.color}` }}
+                    animate={{ scale: [1, 1.2, 1], opacity: [0.6, 0, 0.6] }}
+                    transition={{ duration: 2, repeat: Infinity, delay: i * 0.4 }}
+                  />
+                )}
+              </motion.div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Flow Paths from Acquirers to Payment */}
+        {[0, 1, 2].map((i) => (
+          <motion.div
+            key={i}
+            className="absolute top-[140px] w-1 bg-gradient-to-b"
+            style={{
+              left: `calc(${25 + i * 18}% + ${i * 8}px)`,
+              height: '120px',
+              background: i === 0 ? 'linear-gradient(to bottom, #00c95060, transparent)' :
+                        i === 1 ? 'linear-gradient(to bottom, #9810FA60, transparent)' :
+                        'linear-gradient(to bottom, #ff853460, transparent)'
+            }}
+            initial={{ scaleY: 0 }}
+            animate={{ scaleY: 1 }}
+            transition={{ delay: 0.8 + i * 0.2, duration: 0.6 }}
+          />
+        ))}
+
+        {/* Central Payment Request Card */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 1, type: "spring" }}
+          className="relative z-20"
+        >
+          <div className="w-[450px] h-[200px] rounded-3xl bg-gradient-to-br from-[rgba(152,16,250,0.3)] via-[rgba(109,3,245,0.25)] to-[rgba(215,75,24,0.2)] backdrop-blur-xl border-2 border-[rgba(255,255,255,0.3)] p-8 shadow-2xl"
+               style={{ boxShadow: '0 30px 100px rgba(152,16,250,0.6)' }}>
+            
+            <div className="flex items-start justify-between mb-6">
+              <div>
+                <p className="text-white/70 text-xs mb-1">Pagamento Processando</p>
+                <p className="text-white font-bold text-3xl">R$ 2.589,00</p>
+              </div>
+              <motion.div
+                className="px-4 py-2 rounded-xl bg-[rgba(152,16,250,0.3)] border border-[rgba(152,16,250,0.5)] flex items-center gap-2"
+                animate={{ scale: [1, 1.05, 1] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              >
+                <RefreshCw className="text-[#9810FA]" size={16} />
+                <span className="text-[#9810FA] font-bold text-sm">Processando</span>
+              </motion.div>
+            </div>
+
+            <div className="space-y-3">
+              <div className="flex items-center gap-3">
+                <Check className="text-[#00c950]" size={20} strokeWidth={3} />
+                <p className="text-white text-sm font-semibold">Tentativa 1: Adyen - <span className="text-[#00c950]">APROVADO</span></p>
+              </div>
+              <div className="flex items-center gap-3 opacity-60">
+                <div className="w-5 h-5 rounded-full border-2 border-white/40" />
+                <p className="text-white/60 text-sm">Fallback disponível em 3 adquirentes</p>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Bottom Success Stats */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.4 }}
+          className="flex items-center gap-6"
+        >
+          {[
+            { label: 'Taxa de Aprovação', value: '99.8%', icon: '✅', color: '#00c950' },
+            { label: 'Retentativas', value: '< 2s', icon: '⚡', color: '#ff8534' },
+            { label: 'Adquirentes Ativos', value: '3/4', icon: '🏦', color: '#9810FA' }
+          ].map((stat, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 1.6 + i * 0.1, type: "spring" }}
+              className="px-6 py-4 rounded-2xl bg-[rgba(255,255,255,0.05)] backdrop-blur-sm border border-[rgba(255,255,255,0.1)]"
+            >
+              <div className="flex items-center gap-3 mb-2">
+                <span className="text-2xl">{stat.icon}</span>
+                <p className="text-white/70 text-xs">{stat.label}</p>
+              </div>
+              <p className="text-white font-bold text-2xl" style={{ color: stat.color }}>{stat.value}</p>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* Retry Animation Sequence - Bottom Left */}
+        <motion.div
+          className="absolute bottom-8 left-8"
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 2 }}
+        >
+          <div className="w-[280px] p-5 rounded-2xl bg-gradient-to-br from-[rgba(255,133,52,0.2)] to-[rgba(215,75,24,0.15)] backdrop-blur-xl border border-[rgba(255,133,52,0.3)]">
+            <div className="flex items-center gap-3 mb-3">
+              <AlertCircle className="text-[#ff6900]" size={20} />
+              <p className="text-white font-bold text-sm">Simulação: Falha</p>
+            </div>
+            <div className="space-y-2 text-xs text-white/70">
+              <p>❌ Tentativa 1: Stripe - Recusado</p>
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 2.5 }}
+                className="text-[#00c950] font-semibold"
+              >
+                ✅ Tentativa 2: Adyen - APROVADO
+              </motion.p>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Success Rate Indicator - Bottom Right */}
+        <motion.div
+          className="absolute bottom-8 right-8"
+          initial={{ opacity: 0, x: 30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 2.2 }}
+        >
+          <div className="w-[280px] p-5 rounded-2xl bg-gradient-to-br from-[rgba(0,201,80,0.2)] to-[rgba(0,188,125,0.15)] backdrop-blur-xl border border-[rgba(0,201,80,0.3)]">
+            <div className="flex items-center gap-3 mb-3">
+              <Check className="text-[#00c950]" size={20} strokeWidth={3} />
+              <p className="text-white font-bold text-sm">30% Mais Aprovações</p>
+            </div>
+            <p className="text-xs text-white/70">
+              Multi-adquirência aumenta drasticamente sua taxa de conversão
+            </p>
+          </div>
+        </motion.div>
+
+        {/* Floating Connection Lines */}
+        {[...Array(6)].map((_, i) => {
+          const angle = (i / 6) * Math.PI * 2;
+          const radius = 260;
+          return (
+            <motion.div
+              key={i}
+              className="absolute w-1 h-1 rounded-full"
+              style={{
+                left: `calc(50% + ${Math.cos(angle) * radius}px)`,
+                top: `calc(50% + ${Math.sin(angle) * radius}px)`,
+                background: i % 3 === 0 ? '#00c950' : i % 3 === 1 ? '#9810FA' : '#ff8534'
+              }}
+              animate={{
+                scale: [0, 2, 0],
+                opacity: [0, 0.8, 0]
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                delay: i * 0.4
+              }}
+            />
+          );
+        })}
+      </div>
+    </div>
+  );
