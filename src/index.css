@@ -1446,10 +1446,6 @@
     cursor: pointer;
   }
 
-  .resize-none {
-    resize: none;
-  }
-
   .grid-cols-1 {
     grid-template-columns: repeat(1, minmax(0, 1fr));
   }
@@ -2880,10 +2876,6 @@
     color: #25d366;
   }
 
-  .text-\[\#666\] {
-    color: #666;
-  }
-
   .text-\[\#8696a0\] {
     color: #8696a0;
   }
@@ -2980,10 +2972,6 @@
 
   .uppercase {
     text-transform: uppercase;
-  }
-
-  .italic {
-    font-style: italic;
   }
 
   .opacity-0 {

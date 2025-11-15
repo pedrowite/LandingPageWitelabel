@@ -42,9 +42,9 @@ const steps = [
   },
   {
     id: 4,
-    name: 'Objetivo',
+    name: 'Cenário Atual',
     icon: Target,
-    description: 'Qual é seu objetivo com uma marca de pagamentos?'
+    description: 'Qual é o seu cenário atual em relação a pagamentos?'
   }
 ];
 
@@ -60,34 +60,24 @@ const segmentosOptions = [
 
 const objetivosOptions = [
   { 
-    value: 'propria-marca', 
-    label: 'Criar minha própria marca de pagamentos',
-    description: 'Quero ter um gateway completamente whitelabel'
+    value: 'ja-possuo-operacao', 
+    label: 'Já possuo operação de pagamentos e quero migrar para a WiteLabel',
+    description: ''
   },
   { 
-    value: 'escalar-negocios', 
-    label: 'Escalar meus negócios atuais',
-    description: 'Aumentar conversão e reduzir custos de processamento'
+    value: 'quero-saas-completo', 
+    label: 'Quero ter um SaaS completo e de alta qualidade no setor de pagamentos',
+    description: ''
   },
   { 
-    value: 'diversificar-receita', 
-    label: 'Diversificar fontes de receita',
-    description: 'Adicionar processamento de pagamentos ao meu portfólio'
+    value: 'uso-gateways-terceirizados', 
+    label: 'Uso gateways terceirizados e quero criar minha própria marca.',
+    description: ''
   },
   { 
-    value: 'atender-clientes', 
-    label: 'Atender clientes de alto risco',
-    description: 'Oferecer soluções para nichos específicos'
-  },
-  { 
-    value: 'reducao-custos', 
-    label: 'Reduzir custos operacionais',
-    description: 'Diminuir taxas e ter mais controle sobre processos'
-  },
-  { 
-    value: 'autonomia-total', 
-    label: 'Ter autonomia total sobre pagamentos',
-    description: 'Controle completo de risco, chargeback e aprovação'
+    value: 'entendendo-modelo', 
+    label: 'Ainda estou entendendo qual modelo faz mais sentido.',
+    description: ''
   }
 ];
 
@@ -102,6 +92,7 @@ export default function Formulario() {
     objetivo: ''
   });
   const [errors, setErrors] = useState<Record<string, boolean>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleInputChange = (field: keyof FormData, value: string | string[]) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -529,9 +520,8 @@ export default function Formulario() {
 
                 {/* Etapa 4: Objetivo */}
                 {currentStep === 4 && (
-                  <>
-                    <div className="space-y-4">
-                      {objetivosOptions.map((option) => {
+                  <>\n                    <p className="text-[#C0C0C5] mb-6">Escolha uma opção:</p>
+                    <div className="space-y-3">\n                      {objetivosOptions.map((option) => {
                         const isSelected = formData.objetivo === option.value;
                         
                         return (
@@ -539,33 +529,28 @@ export default function Formulario() {
                             key={option.value}
                             onClick={() => handleInputChange('objetivo', option.value)}
                             className={`
-                              relative w-full p-5 rounded-xl border-2 transition-all text-left
+                              relative w-full p-4 rounded-xl border-2 transition-all text-left
                               ${isSelected 
                                 ? 'bg-[rgba(152,16,250,0.15)] border-[#9810FA]' 
                                 : 'bg-[rgba(255,255,255,0.03)] border-[rgba(255,255,255,0.1)]'
                               }
                             `}
-                            whileHover={{ scale: 1.01, y: -2 }}
+                            whileHover={{ scale: 1.01, x: 5 }}
                             whileTap={{ scale: 0.99 }}
                           >
-                            <div className="relative flex items-start justify-between gap-4">
-                              <div className="flex-1">
-                                <h3 className={`font-bold mb-1 ${isSelected ? 'text-white' : 'text-[#A0A0A5]'}`}>
-                                  {option.label}
-                                </h3>
-                                <p className="text-[#666] text-sm">
-                                  {option.description}
-                                </p>
-                              </div>
+                            <div className="relative flex items-center justify-between gap-4">
+                              <span className={`font-bold ${isSelected ? 'text-white' : 'text-[#A0A0A5]'}`}>
+                                {option.label}
+                              </span>
                               <div className={`
-                                flex-shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center
+                                flex-shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center
                                 ${isSelected ? 'border-[#9810FA] bg-[#9810FA]' : 'border-[rgba(255,255,255,0.2)]'}
                               `}>
                                 {isSelected && (
                                   <motion.div
                                     initial={{ scale: 0 }}
                                     animate={{ scale: 1 }}
-                                    className="w-3 h-3 rounded-full bg-white"
+                                    className="w-2 h-2 rounded-full bg-white"
                                   />
                                 )}
                               </div>
@@ -575,30 +560,13 @@ export default function Formulario() {
                       })}
                     </div>
 
-                    {/* Campo de texto adicional - OPCIONAL */}
-                    <div className="mt-6">
-                      <label className="block mb-2">
-                        <span className="text-[#A0A0A5] text-sm">
-                          Descreva melhor seu objetivo{' '}
-                          <span className="text-[#666] italic">(opcional)</span>
-                        </span>
-                      </label>
-                      <textarea
-                        value={formData.objetivo || ''}
-                        onChange={(e) => handleInputChange('objetivo', e.target.value)}
-                        placeholder="Ex: Quero oferecer pagamentos para meus clientes com minha própria marca..."
-                        className="w-full px-4 py-3 bg-[rgba(255,255,255,0.03)] border-2 border-[rgba(255,255,255,0.1)] rounded-xl text-white placeholder:text-[#666] focus:outline-none focus:border-[#9810FA] transition-all resize-none"
-                        rows={4}
-                      />
-                    </div>
-
                     {errors.objetivo && (
                       <motion.p 
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         className="text-red-400 text-sm mt-4"
                       >
-                        Selecione um objetivo
+                        Selecione um cenário
                       </motion.p>
                     )}
                   </>
