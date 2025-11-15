@@ -15,6 +15,28 @@ interface WiteEcosystemNewProps {
 
 const products = [
   {
+    id: 'tec',
+    name: 'WiteTec',
+    tagline: 'Infraestrutura B2B',
+    description: 'Tecnologia que gera resultado. Subadquirência inteligente, performance real e estrutura preparada para escalar o seu negócio sem limites.',
+    color: '#ff8534',
+    icon: Code,
+    logo: witeTecLogo,
+    features: [
+      'Pix, cartão e boleto',
+      'API de disputas',
+      'Webhooks em tempo real',
+      'Documentação técnica detalhada',
+      'Suporte técnico especializado',
+      'Compliance ativo'
+    ],
+    stats: [
+      { label: 'Uptime', value: '99.9%' },
+      { label: 'APIs', value: '50+' },
+      { label: 'Latência', value: '<100ms' }
+    ]
+  },
+  {
     id: 'checkout',
     name: 'Wite Checkout',
     tagline: 'Checkout de alta conversão',
@@ -57,33 +79,11 @@ const products = [
       { label: 'Taxa sucesso', value: '67%' },
       { label: 'Automação', value: '100%' }
     ]
-  },
-  {
-    id: 'tec',
-    name: 'WiteTec',
-    tagline: 'Infraestrutura B2B',
-    description: 'Tecnologia que gera resultado. Subadquirência inteligente, performance real e estrutura preparada para escalar o seu negócio sem limites.',
-    color: '#ff8534',
-    icon: Code,
-    logo: witeTecLogo,
-    features: [
-      'Pix, cartão e boleto',
-      'API de disputas',
-      'Webhooks em tempo real',
-      'Documentação técnica detalhada',
-      'Suporte técnico especializado',
-      'Compliance ativo'
-    ],
-    stats: [
-      { label: 'Uptime', value: '99.9%' },
-      { label: 'APIs', value: '50+' },
-      { label: 'Latência', value: '<100ms' }
-    ]
   }
 ];
 
 export default function WiteEcosystemNew({ theme }: WiteEcosystemNewProps) {
-  const [selectedProduct, setSelectedProduct] = useState(products[2]); // WiteTec is index 2
+  const [selectedProduct, setSelectedProduct] = useState(products[0]); // WiteTec is now index 0
   const [hoveredProduct, setHoveredProduct] = useState<string | null>(null);
 
   return (
