@@ -226,7 +226,7 @@ export default function Formulario() {
             
             {/* Etapa indicator */}
             <div className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-[rgba(152,16,250,0.15)] border border-[rgba(152,16,250,0.3)]">
-              <span className="text-[#9810FA] font-bold text-xs sm:text-sm">Etapa</span>
+              <span className="text-[#9810FA] font-bold text-xs sm:text-sm hidden sm:inline">Etapa</span>
               <motion.span 
                 key={currentStep}
                 initial={{ scale: 1.5, opacity: 0 }}

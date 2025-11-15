@@ -73,8 +73,7 @@ export default function Hero({ theme }: HeroProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-white mb-6 leading-[1.1] max-w-4xl font-bold"
-            style={{ fontSize: '55px' }}
+            className="text-white mb-6 leading-[1.1] max-w-4xl font-bold text-[48px] sm:text-[40px] md:text-[48px] lg:text-[55px]"
           >
             Pare de depender de gateways tradicionais.{' '}
             <span className="bg-gradient-to-r from-[#EFD9FF] via-[#FED5A7] to-[#FFBF77] bg-clip-text text-transparent">
