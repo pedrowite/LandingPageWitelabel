@@ -157,25 +157,25 @@ export default function Formulario() {
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Purple glow - Top Left */}
         <div 
-          className="absolute -top-1/4 -left-1/4 w-[600px] h-[600px] md:w-[800px] md:h-[800px] rounded-full opacity-25 md:opacity-30 blur-[100px]"
+          className="absolute -top-1/4 -left-1/4 w-[600px] h-[600px] md:w-[800px] md:h-[800px] rounded-full opacity-25 md:opacity-30"
           style={{ background: 'radial-gradient(circle, rgba(152,16,250,0.5) 0%, transparent 60%)' }}
         />
         
         {/* Orange glow - Top Right */}
         <div 
-          className="absolute -top-1/4 -right-1/4 w-[600px] h-[600px] md:w-[800px] md:h-[800px] rounded-full opacity-25 md:opacity-30 blur-[100px]"
+          className="absolute -top-1/4 -right-1/4 w-[600px] h-[600px] md:w-[800px] md:h-[800px] rounded-full opacity-25 md:opacity-30"
           style={{ background: 'radial-gradient(circle, rgba(255,133,52,0.5) 0%, transparent 60%)' }}
         />
 
         {/* Purple glow - Bottom Left */}
         <div 
-          className="absolute -bottom-1/4 -left-1/4 w-[600px] h-[600px] md:w-[800px] md:h-[800px] rounded-full opacity-20 md:opacity-25 blur-[100px]"
+          className="absolute -bottom-1/4 -left-1/4 w-[600px] h-[600px] md:w-[800px] md:h-[800px] rounded-full opacity-20 md:opacity-25"
           style={{ background: 'radial-gradient(circle, rgba(152,16,250,0.5) 0%, transparent 60%)' }}
         />
         
         {/* Orange glow - Bottom Right */}
         <div 
-          className="absolute -bottom-1/4 -right-1/4 w-[600px] h-[600px] md:w-[800px] md:h-[800px] rounded-full opacity-20 md:opacity-25 blur-[100px]"
+          className="absolute -bottom-1/4 -right-1/4 w-[600px] h-[600px] md:w-[800px] md:h-[800px] rounded-full opacity-20 md:opacity-25"
           style={{ background: 'radial-gradient(circle, rgba(255,133,52,0.5) 0%, transparent 60%)' }}
         />
 

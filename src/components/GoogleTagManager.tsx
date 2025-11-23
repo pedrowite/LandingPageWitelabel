@@ -3,34 +3,58 @@ import { Helmet } from 'react-helmet';
 
 export function GoogleTagManager() {
   useEffect(() => {
-    // Initialize dataLayer
+    // Initialize dataLayer for Google Analytics
     window.dataLayer = window.dataLayer || [];
+    function gtag(...args: any[]) {
+      window.dataLayer.push(args);
+    }
+    gtag('js', new Date());
+    gtag('config', 'AW-17736948122');
+
+    // Initialize Meta Pixel
+    if (!window.fbq) {
+      const n: any = function() {
+        if (n.callMethod) {
+          n.callMethod.apply(n, arguments);
+        } else {
+          n.queue.push(arguments);
+        }
+      };
+      if (!window._fbq) window._fbq = n;
+      n.push = n;
+      n.loaded = true;
+      n.version = '2.0';
+      n.queue = [];
+      window.fbq = n;
+      
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = 'https://connect.facebook.net/en_US/fbevents.js';
+      const firstScript = document.getElementsByTagName('script')[0];
+      firstScript.parentNode?.insertBefore(script, firstScript);
+      
+      window.fbq('init', '857753330036729');
+      window.fbq('track', 'PageView');
+    }
   }, []);
 
   return (
     <>
       <Helmet>
-        {/* Google Tag Manager */}
-        <script>
-          {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-W5LK3Z59');`}
-        </script>
-        {/* End Google Tag Manager */}
+        {/* Google tag (gtag.js) */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17736948122"></script>
       </Helmet>
 
-      {/* Google Tag Manager (noscript) */}
+      {/* Meta Pixel (noscript) */}
       <noscript>
-        <iframe 
-          src="https://www.googletagmanager.com/ns.html?id=GTM-W5LK3Z59"
-          height="0" 
-          width="0" 
-          style={{ display: 'none', visibility: 'hidden' }}
+        <img 
+          height="1" 
+          width="1" 
+          style={{ display: 'none' }}
+          src="https://www.facebook.com/tr?id=857753330036729&ev=PageView&noscript=1"
+          alt=""
         />
       </noscript>
-      {/* End Google Tag Manager (noscript) */}
     </>
   );
 }
@@ -38,5 +62,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 declare global {
   interface Window {
     dataLayer: any[];
+    fbq: any;
+    _fbq: any;
   }
 }

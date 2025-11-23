@@ -6,6 +6,7 @@ import { useState } from 'react';
 import imgWiteLabelLogo from "figma:asset/bb3f1e4d91d8cb4b6e7deebe33fca6227219583d.png";
 import imgYampiLogo from 'figma:asset/b40a67c0e26cf35a8cdb24952e86abaf3660c4d3.png';
 import Container from '../imports/Container';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface HeroProps {
   theme: ThemeMode;
@@ -13,6 +14,7 @@ interface HeroProps {
 
 export default function Hero({ theme }: HeroProps) {
   const [selectedLayer, setSelectedLayer] = useState<number | null>(null);
+  const { t } = useLanguage();
 
   return (
     <section className="relative min-h-screen flex items-center justify-center px-6 pt-32 pb-8">
@@ -65,7 +67,7 @@ export default function Hero({ theme }: HeroProps) {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm mb-8"
           >
             <Zap className="w-4 h-4 text-[#D74B18]" />
-            <span className="text-white/80 text-sm">Infraestrutura White Label completa</span>
+            <span className="text-white/80 text-sm">{t.hero.badge}</span>
           </motion.div>
 
           {/* Main Headline */}
@@ -75,9 +77,9 @@ export default function Hero({ theme }: HeroProps) {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-white mb-6 leading-[1.1] max-w-4xl font-bold text-[48px] sm:text-[40px] md:text-[48px] lg:text-[55px]"
           >
-            Pare de depender de gateways tradicionais.{' '}
+            {t.hero.title}{' '}
             <span className="bg-gradient-to-r from-[#EFD9FF] via-[#FED5A7] to-[#FFBF77] bg-clip-text text-transparent">
-              Tenha o seu.
+              {t.hero.titleGradient}
             </span>
           </motion.h1>
 
@@ -88,7 +90,7 @@ export default function Hero({ theme }: HeroProps) {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-[#C0C0C8] text-lg leading-relaxed mb-4 max-w-2xl"
           >
-            Controle taxas, gere recorrência, integre suas soluções e destaque sua marca no mercado de pagamentos.
+            {t.hero.subtitle}
           </motion.p>
 
           <motion.p
@@ -124,7 +126,7 @@ export default function Hero({ theme }: HeroProps) {
               {/* Hover gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-r from-[#9810FA]/50 to-[#7a0dd4]/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               
-              <span className="relative">Agendar Demonstração</span>
+              <span className="relative">{t.hero.cta}</span>
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform relative" />
             </motion.button>
           </motion.div>

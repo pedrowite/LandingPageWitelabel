@@ -1,7 +1,9 @@
 import { motion } from 'motion/react';
-import { Linkedin, Instagram, Mail } from 'lucide-react';
+import { Linkedin, Instagram, Mail, Globe, ChevronDown } from 'lucide-react';
 import { ThemeMode } from '../App';
 import imgWiteLabelLogo from "figma:asset/bb3f1e4d91d8cb4b6e7deebe33fca6227219583d.png";
+import { useState } from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface FooterProps {
   theme: ThemeMode;
@@ -9,6 +11,8 @@ interface FooterProps {
 
 export default function Footer({ theme }: FooterProps) {
   const currentYear = new Date().getFullYear();
+  const { language, setLanguage, t } = useLanguage();
+  const [isLanguageOpen, setIsLanguageOpen] = useState(false);
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -16,6 +20,13 @@ export default function Footer({ theme }: FooterProps) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  const languages = [
+    { code: 'pt-BR', label: 'Português (BR)', flag: 'https://flagcdn.com/w40/br.png' },
+    { code: 'en', label: 'English', flag: 'https://flagcdn.com/w40/us.png' }
+  ];
+
+  const currentLanguage = languages.find(lang => lang.code === language);
 
   return (
     <footer className="relative border-t border-[rgba(255,255,255,0.1)] bg-gradient-to-b from-transparent to-[rgba(0,0,0,0.3)] py-24 py-[45px] px-[0px]">
@@ -49,7 +60,7 @@ export default function Footer({ theme }: FooterProps) {
               </span>
             </div>
             <p className="text-[#A0A0A5] mb-6">
-              Transformando marcas em operações financeiras completas através de tecnologia whitelabel enterprise.
+              {t.footer.description}
             </p>
             <div className="flex gap-3">
               {[
@@ -79,16 +90,16 @@ export default function Footer({ theme }: FooterProps) {
             transition={{ duration: 0.6, delay: 0.1 }}
           >
             <h4 className="bg-gradient-to-r from-[#FFFFFF] via-[#FED5A7] to-[#FFFFFF] bg-clip-text text-transparent font-bold mb-4">
-              Navegação
+              {t.footer.navigation}
             </h4>
             <ul className="space-y-3">
               {[
-                { label: 'Como Funciona', id: 'como-funciona' },
-                { label: 'Receita', id: 'receita' },
-                { label: 'App Mobile', id: 'app' },
-                { label: 'Integrações', id: 'integracoes' },
-                { label: 'Suporte', id: 'suporte' },
-                { label: 'Segurança', id: 'seguranca' }
+                { label: t.footer.nav.howItWorks, id: 'como-funciona' },
+                { label: t.footer.nav.revenue, id: 'receita' },
+                { label: t.footer.nav.app, id: 'app' },
+                { label: t.footer.nav.integrations, id: 'integracoes' },
+                { label: t.footer.nav.support, id: 'suporte' },
+                { label: t.footer.nav.security, id: 'seguranca' }
               ].map((item, index) => (
                 <li key={index}>
                   <button 
@@ -111,7 +122,7 @@ export default function Footer({ theme }: FooterProps) {
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <h4 className="bg-gradient-to-r from-[#FFFFFF] via-[#FED5A7] to-[#FFFFFF] bg-clip-text text-transparent font-bold mb-4">
-              Contato
+              {t.footer.contact}
             </h4>
             <ul className="space-y-3">
               <li className="flex items-start gap-3">
@@ -136,19 +147,68 @@ export default function Footer({ theme }: FooterProps) {
           className="flex flex-col md:flex-row items-center justify-between gap-4"
         >
           <p className="text-[#A0A0A5] text-sm">
-            © {currentYear} WiteLabel — impulsionando o futuro dos gateways digitais.
+            © {currentYear} {t.footer.copyright}
           </p>
           
-          <div className="flex flex-wrap gap-6 text-sm">
-            {['Termos de Uso', 'Política de Privacidade', 'Cookies'].map((item, index) => (
-              <a 
-                key={index}
-                href="#" 
-                className="text-[#A0A0A5] hover:bg-gradient-to-r hover:from-[#FFFFFF] hover:via-[#FED5A7] hover:to-[#FFFFFF] hover:bg-clip-text hover:text-transparent transition-all"
+          <div className="flex items-center gap-6 text-sm">
+            {/* Language Selector */}
+            <div className="relative">
+              <motion.button
+                onClick={() => setIsLanguageOpen(!isLanguageOpen)}
+                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] hover:border-[rgba(255,133,52,0.5)] hover:bg-[rgba(255,133,52,0.1)] transition-all"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                {item}
-              </a>
-            ))}
+                <Globe className="w-4 h-4 text-white" />
+                <img src={currentLanguage?.flag} alt="" className="w-5 h-3 object-cover rounded-sm" />
+                <span className="text-white text-sm">{currentLanguage?.code === 'pt-BR' ? 'PT' : 'EN'}</span>
+                <ChevronDown className={`w-4 h-4 text-white transition-transform ${isLanguageOpen ? 'rotate-180' : ''}`} />
+              </motion.button>
+
+              {/* Dropdown */}
+              {isLanguageOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="absolute bottom-full mb-2 right-0 min-w-[200px] rounded-xl bg-[rgba(17,17,20,0.95)] border border-[rgba(255,255,255,0.1)] backdrop-blur-xl overflow-hidden shadow-2xl"
+                  style={{
+                    boxShadow: '0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(255,133,52,0.1)'
+                  }}
+                >
+                  {languages.map((lang) => (
+                    <motion.button
+                      key={lang.code}
+                      onClick={() => {
+                        setLanguage(lang.code as 'pt-BR' | 'en');
+                        setIsLanguageOpen(false);
+                      }}
+                      className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-all ${
+                        language === lang.code
+                          ? 'bg-[rgba(255,133,52,0.2)] text-white border-l-2 border-[#ff8534]'
+                          : 'text-[#A0A0A5] hover:bg-[rgba(255,255,255,0.05)] hover:text-white'
+                      }`}
+                      whileHover={{ x: 4 }}
+                    >
+                      <img src={lang.flag} alt={lang.label} className="w-6 h-4 object-cover rounded-sm" />
+                      <span className="text-sm font-bold">{lang.label}</span>
+                    </motion.button>
+                  ))}
+                </motion.div>
+              )}
+            </div>
+
+            {/* Legal Links */}
+            <div className="flex flex-wrap gap-6">
+              {[t.footer.legal.terms, t.footer.legal.privacy, t.footer.legal.cookies].map((item, index) => (
+                <a 
+                  key={index}
+                  href="#" 
+                  className="text-[#A0A0A5] hover:bg-gradient-to-r hover:from-[#FFFFFF] hover:via-[#FED5A7] hover:to-[#FFFFFF] hover:bg-clip-text hover:text-transparent transition-all"
+                >
+                  {item}
+                </a>
+              ))}
+            </div>
           </div>
         </motion.div>
       </div>

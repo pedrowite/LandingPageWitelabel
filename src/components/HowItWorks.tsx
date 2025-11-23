@@ -2,48 +2,50 @@ import { motion } from 'motion/react';
 import { Rocket, Settings, CheckCircle, Zap, Clock } from 'lucide-react';
 import { ThemeMode } from '../App';
 import { useState } from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface HowItWorksProps {
   theme: ThemeMode;
 }
 
-const steps = [
-  {
-    number: "01",
-    title: "Preencha o formulário",
-    description: "Conte-nos sobre seu negócio e objetivos",
-    icon: Rocket,
-    color: "#ff8534",
-    time: "5 min"
-  },
-  {
-    number: "02",
-    title: "Personalize sua marca",
-    description: "Configure logo, cores e identidade visual",
-    icon: Settings,
-    color: "#ff6900",
-    time: "15 min"
-  },
-  {
-    number: "03",
-    title: "Conecte e Ative os Pagamentos",
-    description: "Conecte bancos, APIs e meios de pagamento",
-    icon: Zap,
-    color: "#9810FA",
-    time: "20 min"
-  },
-  {
-    number: "04",
-    title: "Lance seu gateway",
-    description: "Comece a processar pagamentos hoje mesmo",
-    icon: CheckCircle,
-    color: "#b45dff",
-    time: "Imediato"
-  }
-];
-
 export default function HowItWorks({ theme }: HowItWorksProps) {
   const [activeStep, setActiveStep] = useState(0);
+  const { t } = useLanguage();
+
+  const steps = [
+    {
+      number: "01",
+      title: t.howItWorks.step1.title,
+      description: t.howItWorks.step1.description,
+      icon: Rocket,
+      color: "#ff8534",
+      time: "5 min"
+    },
+    {
+      number: "02",
+      title: t.howItWorks.step2.title,
+      description: t.howItWorks.step2.description,
+      icon: Settings,
+      color: "#ff6900",
+      time: "15 min"
+    },
+    {
+      number: "03",
+      title: t.howItWorks.step3.title,
+      description: t.howItWorks.step3.description,
+      icon: Zap,
+      color: "#9810FA",
+      time: "20 min"
+    },
+    {
+      number: "04",
+      title: t.howItWorks.step4.title,
+      description: t.howItWorks.step4.description,
+      icon: CheckCircle,
+      color: "#b45dff",
+      time: t.howItWorks.step4.time
+    }
+  ];
 
   return (
     <section className="relative py-12 md:py-24 px-6 max-w-[1600px] mx-auto">
@@ -61,13 +63,13 @@ export default function HowItWorks({ theme }: HowItWorksProps) {
             whileHover={{ scale: 1.05 }}
           >
             <Zap className="text-[#ff8534]" size={24} />
-            <span className="text-white font-bold text-lg">Como Funciona</span>
+            <span className="text-white font-bold text-lg">{t.howItWorks.title}</span>
           </motion.div>
 
           <h2 className="text-white mb-8 leading-tight font-bold sm:text-[55px] text-[48px]">
-            Do zero ao{' '}
+            {t.howItWorks.subtitle}{' '}
             <span className="bg-gradient-to-r from-[#EFD9FF] via-[#FED5A7] to-[#FFBF77] bg-clip-text text-transparent">
-              operacional
+              {t.howItWorks.subtitleGradient}
             </span>
           </h2>
 
@@ -152,10 +154,10 @@ export default function HowItWorks({ theme }: HowItWorksProps) {
                         animate={{ opacity: [0.5, 1, 0.5] }}
                         transition={{ duration: 2, repeat: Infinity }}
                       >
-                        ou menos
+                        {t.howItWorks.badge48h}
                       </motion.span>
                     </div>
-                    <p className="text-white font-semibold text-sm">Para o gateway estar 100% operacional</p>
+                    <p className="text-white font-semibold text-sm">{t.howItWorks.ready}</p>
                   </div>
                 </div>
 
@@ -181,7 +183,7 @@ export default function HowItWorks({ theme }: HowItWorksProps) {
           </div>
 
           <p className="text-[#A0A0A5] text-xl max-w-3xl mx-auto px-[0px] py-[20px] mx-[0px] my-[20px]">
-            Seu gateway whitelabel pronto em <span className="text-white font-bold">4 passos simples</span>
+            {t.howItWorks.description} <span className="text-white font-bold">{t.howItWorks.descriptionBold}</span>
           </p>
         </motion.div>
 
